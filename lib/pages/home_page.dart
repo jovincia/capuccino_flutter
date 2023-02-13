@@ -1,4 +1,5 @@
 import 'package:coffee_app/utils/coffee_tiles.dart';
+import 'package:coffee_app/utils/coffee_type.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,6 +11,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  final List coffeeType = [
+    'Cappucino' , true,
+    'Latte' ,false ,
+    'Black' , false,
+    'Sugar' , false,
+
+
+  ];
+
+
+  void coffeeTypeSelected(int index){
+    setState(() {
+      coffeeType[index][1] = 1;
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,6 +86,17 @@ class _HomePageState extends State<HomePage> {
             // horizontal listview of coffee types
             Container(
               height: 50,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal  ,
+                itemCount: coffeeType.length,
+                itemBuilder: (context,index){
+                return CoffeeType(
+                coffeeType: coffeeType[index][0],
+                isSelected: coffeeType[index][1],
+                onTap: (){
+                  coffeeTypeSelected(index);  
+                },);
+              },)
               //color: Colors.red,
             ),
 
@@ -75,7 +104,7 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: [CoffeeTile()],
+                children:[CoffeeTile()],
               ),
             )
           ],
